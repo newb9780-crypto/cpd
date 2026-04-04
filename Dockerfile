@@ -1,9 +1,12 @@
 FROM ubuntu:latest
 
-# System update and install necessary tools
+# સિસ્ટમ અપડેટ અને જરૂરી ટૂલ્સ (Updated this line)
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
     gcc \
+    g++ \
+    build-essential \
+    python3-dev \
     libffi-dev \
     musl-dev \
     ffmpeg \
@@ -13,13 +16,12 @@ RUN apt-get update -y && apt-get upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set app directory
+# એપ ડિરેક્ટરી સેટ કરવી
 COPY . /app/
 WORKDIR /app/
 
-# Install python libraries (Fixed the exit code 1 error here)
+# લાઈબ્રેરીઓ ઇન્સ્ટોલ કરવી
 RUN pip3 install --no-cache-dir --upgrade -r requirements.txt --break-system-packages
 
-# Command to run the bot
-# Note: જો તમારી મેઈન ફાઈલનું નામ અલગ હોય તો અહિયાં બદલજો
+# બોટ રન કરવા માટે
 CMD python3 modules/main.py
