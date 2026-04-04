@@ -24,4 +24,4 @@ WORKDIR /app/
 RUN pip3 install --no-cache-dir --upgrade -r requirements.txt --break-system-packages
 
 # બોટ રન કરવા માટે
-CMD python3 modules/main.py
+CMD python3 main.py
