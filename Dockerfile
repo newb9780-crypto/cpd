@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-# સિસ્ટમ અપડેટ અને જરૂરી ટૂલ્સ (Updated this line)
+# સિસ્ટમ અપડેટ અને જરૂરી ટૂલ્સ ઇન્સ્ટોલ કરવા
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
     gcc \
@@ -20,8 +20,15 @@ RUN apt-get update -y && apt-get upgrade -y \
 COPY . /app/
 WORKDIR /app/
 
-# લાઈબ્રેરીઓ ઇન્સ્ટોલ કરવી
-RUN pip3 install --no-cache-dir --upgrade -r requirements.txt --break-system-packages
+# બધી જરૂરી લાઈબ્રેરીઓ એકસાથે ઇન્સ્ટોલ કરવી
+RUN pip3 install --no-cache-dir --upgrade \
+    pyrogram \
+    tgcrypto \
+    yt-dlp \
+    requests \
+    aiohttp \
+    aiofiles \
+    --break-system-packages
 
-# બોટ રન કરવા માટે
+# બોટ રન કરવા માટે (તમારી ફાઈલ સીધી બહાર છે એટલે main.py)
 CMD python3 main.py
