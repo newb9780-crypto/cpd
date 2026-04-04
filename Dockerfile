@@ -1,34 +1,22 @@
-FROM ubuntu:latest
+FROM python:3.10-slim-buster
 
-# સિસ્ટમ અપડેટ અને જરૂરી ટૂલ્સ ઇન્સ્ટોલ કરવા
+# સિસ્ટમ પેકેજ અને ટૂલ્સ
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-    gcc \
-    g++ \
-    build-essential \
-    python3-dev \
-    libffi-dev \
-    musl-dev \
     ffmpeg \
-    aria2 \
-    python3-pip \
-    python3-setuptools \
+    gcc \
+    python3-dev \
+    build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# એપ ડિરેક્ટરી સેટ કરવી
-COPY . /app/
-WORKDIR /app/
+# એપ સેટઅપ
+WORKDIR /app
+COPY . /app
 
-# બધી જરૂરી લાઈબ્રેરીઓ એકસાથે ઇન્સ્ટોલ કરવી
-RUN pip3 install --no-cache-dir --upgrade \
-    pyrogram \
-    tgcrypto \
-    yt-dlp \
-    requests \
-    aiohttp \
-    aiofiles \
-    --break-system-packages
+# લાઈબ્રેરીઓ ઇન્સ્ટોલ કરવી (Using simple pip install)
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 
-# બોટ રન કરવા માટે (તમારી ફાઈલ સીધી બહાર છે એટલે main.py)
-CMD python3 main.py
+# બોટ રન કરવો
+CMD ["python3", "main.py"]
